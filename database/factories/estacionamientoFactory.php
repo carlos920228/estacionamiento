@@ -18,7 +18,7 @@ class estacionamientoFactory extends Factory
     public function definition()
     {
         return [
-            'nombre' => $this->faker->firstname()
+            'nombre' => $this->faker->country()
         ];
     }
 }

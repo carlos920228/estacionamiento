@@ -50,9 +50,22 @@ const logout = () => {
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <JetNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
+                                    Reportes
+                                </JetNavLink>
+                                <JetNavLink :href="route('estacionamiento.index')" :active="route().current('estacionamiento.index')">
+                                    Estacionamientos
+                                </JetNavLink>
+                                <JetNavLink :href="route('entradas.create')" :active="route().current('entradas.create')">
+                                    Registrar entradas
+                                </JetNavLink>
+                                <JetNavLink :href="route('entradas.index')" :active="route().current('entradas.create')">
+                                    Cobrar
+                                </JetNavLink>
+                                 <JetNavLink :href="route('ingresos')" :active="route().current('ingresos')">
+                                    Ingresos
                                 </JetNavLink>
                             </div>
+                            
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ml-6">

@@ -16,7 +16,8 @@ class Entradas extends Model
   'placas',
   'descripcion',
   'costo',
-  'estacionamientos_id'
+  'estacionamientos_id',
+  'tipo'
 ];
 public function tw_corporativo(){
     return $this->belongsTo(estacionamientos::class);

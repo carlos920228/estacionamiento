@@ -12,6 +12,7 @@ class estacionamiento extends Model
     use HasFactory,softDeletes;
     protected $fillable = [
     'nombre',
+    'activo'
 ];
 public function costos()
     {

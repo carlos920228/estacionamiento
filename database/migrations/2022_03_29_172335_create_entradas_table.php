@@ -15,12 +15,13 @@ class CreateEntradasTable extends Migration
     {
         Schema::create('entradas', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('entrada');
-            $table->dateTime('salida');
-            $table->decimal('total', 8, 2);
-            $table->string('placas',40);
-            $table->string('descripcion',400);
-            $table->decimal('costo', 8, 2);
+            $table->dateTime('entrada')->nullable();
+            $table->dateTime('salida')->nullable();
+            $table->decimal('total', 8, 2)->nullable();
+            $table->string('placas',40)->nullable();
+            $table->string('descripcion',400)->nullable();
+            $table->string('tipo',400)->nullable();
+            $table->decimal('costo', 8, 2)->nullable();
             $table->unsignedBigInteger('estacionamientos_id');
             $table->timestamps();
             $table->softDeletes();

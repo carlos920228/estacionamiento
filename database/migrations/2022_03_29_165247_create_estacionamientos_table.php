@@ -16,6 +16,7 @@ class CreateEstacionamientosTable extends Migration
         Schema::create('estacionamientos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre',255);
+            $table->string('activo',3)->default("Sí");
             $table->timestamps();
             $table->softDeletes();
         });

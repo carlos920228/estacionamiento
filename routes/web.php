@@ -2,8 +2,10 @@
 
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use App\Models\estacionamiento;
 use Inertia\Inertia;
-
+use App\Http\Controllers\EstacionamientoController;
+use App\Http\Controllers\EntradasController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,4 +34,7 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+    Route::resource('estacionamiento',EstacionamientoController::class);
+    Route::resource('entradas',EntradasController::class);
+    Route::get('/ingresos', [EntradasController::class,'ingresos'])->name("ingresos");;
 });
