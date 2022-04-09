@@ -136,18 +136,17 @@ class EntradasController extends Controller
       $estacionamientos=estacionamiento::where('activo','Sí')->get();
       $horas=['00','01','02','03','04','05','06','07','08','09','10',
       '11','12','13','14','15','16','17','18','19','20','21','22','23','24'];
-      
       $ocupacion=[];
-      foreach($horas as $key => $hour){
       foreach ($estacionamientos as $key => $value) {
         $ingresos2=DB::table('entradas')
       ->whereDate('salida', $hoy)
       ->where('estacionamientos_id',$value['id'])
       ->select(DB::raw('DATE_FORMAT(salida,"%H") as hora,count(*) as total'))
       ->groupBy('hora')->get();
-      array_push($ocupacion,$ingresos2);
+      $dt=[$value['nombre']=>$ingresos2];
+      array_push($ocupacion,$dt);
     }
-  }
+   print_r($ocupacion);
     return Inertia::render('Hora',['estacionamientos'=>$estacionamientos]);
 
     }
