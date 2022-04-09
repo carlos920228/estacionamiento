@@ -5,13 +5,12 @@
                 Ingreso diario por Estacionamiento</h1>
               
                 </template>
-                    {{ingresos}}
-                
-                <template>
+                <div class="py-12 center">
+                <div style="max-width:30%; max-height:40%;padding-left:10px;">                   
                     <Bar
                         :chart-options="chartOptions"
                         :chart-data="chartData"
-                        :chart-id="chartId"
+                        :chart-id="Ingresos"
                         :dataset-id-key="datasetIdKey"
                         :plugins="plugins"
                         :css-classes="cssClasses"
@@ -19,14 +18,16 @@
                         :width="width"
                         :height="height"
                     />
-                </template>
+                </div>
+                </div>
+                
 </app-layout>
 </template>
 
 <script>
 import AppLayout from "@/Layouts/AppLayout";
 import { Link } from '@inertiajs/inertia-vue3';
-import { Bar, Line  } from 'vue-chartjs';
+import { Bar, Line,  } from 'vue-chartjs';
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 export default ({
@@ -34,13 +35,14 @@ export default ({
   components: { 
       AppLayout,
       Bar,
-      Link
+      Link,
       },
         props:{
         ingresos: Array,
+        estacionamientos:Array,
         chartId: {
       type: String,
-      default: 'bar-chart'
+      default: 'Ingresos'
     },
     datasetIdKey: {
       type: String,
@@ -48,11 +50,11 @@ export default ({
     },
     width: {
       type: Number,
-      default: 400
+      default: 100
     },
     height: {
       type: Number,
-      default: 400
+      default: 100
     },
     cssClasses: {
       default: '',
@@ -65,33 +67,28 @@ export default ({
     plugins: {
       type: Object,
       default: () => {}
-    },
-     data() {
+    }
+  },
+  data() {
+      var labels=[];
+      var datasets=[];
+      this.ingresos.forEach(element => {
+          labels.push(element.nombre);
+          datasets.push(element.total);
+      });
     return {
       chartData: {
-        labels: [ 'January', 'February', 'March' ],
-        datasets: [ { data: [40, 20, 12] } ]
+        labels:labels,
+        datasets: [ {label:"Ingresos",backgroundColor:["red","blue","green","Yellow","Orange"], data: datasets } ]
       },
       chartOptions: {
-        responsive: true
+        responsive: true,
+        puglins:{
+             legend:{display:false}
+        }
       }
+      
     }
   }
-
-    }
 });
 </script>
-
-<style type="text/css">
-
-    #Grafico {
-        z-index: 800;
-        height: 70px;
-        border: 1px dashed #999966;
-        background-color: #ffffcc;
-        margin: 0px 50px 0px 50px;
-        text-align: center;
-    }  
-    
-
-    </style>

@@ -36,5 +36,7 @@ Route::middleware([
     })->name('dashboard');
     Route::resource('estacionamiento',EstacionamientoController::class);
     Route::resource('entradas',EntradasController::class);
-    Route::get('/ingresos', [EntradasController::class,'ingresos'])->name("ingresos");;
+    Route::get('/ingresos', [EntradasController::class,'ingresos'])->name("ingresos");
+    Route::get('/vehiculos', [EntradasController::class,'vehiculos'])->name("vehiculos");
+    Route::get('/hora', [EntradasController::class,'hora'])->name("hora");
 });

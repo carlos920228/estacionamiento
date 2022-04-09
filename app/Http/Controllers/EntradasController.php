@@ -8,6 +8,7 @@ use App\Models\Entradas;
 use App\Models\Costos;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\DB;
 class EntradasController extends Controller
 {
     public function index()
@@ -83,11 +84,71 @@ class EntradasController extends Controller
     public function ingresos(){
       $carbon = new \Carbon\Carbon();
       $hoy=$carbon->now()->toDateString();
-      $ingresos=Entradas::groupBy('estacionamientos_id')
+      $ingresos=Entradas::join('estacionamientos', 'entradas.estacionamientos_id', '=', 'estacionamientos.id')
+      ->groupBy('estacionamientos.nombre')
       ->whereDate('salida', $hoy)
-      ->selectRaw('estacionamientos_id, sum(total) as total')
+      ->select('estacionamientos.nombre', DB::raw('SUM(total) as total'))
       ->get();
+
       //echo $ingresos;
       return Inertia::render('Ingresos',['ingresos'=>$ingresos]);
+    }
+    public function vehiculos(){
+      $carbon = new \Carbon\Carbon();
+      $hoy=$carbon->now()->toDateString();
+      $ingresos2=Entradas::join('estacionamientos', 'entradas.estacionamientos_id', '=', 'estacionamientos.id')
+      ->groupBy("entradas.tipo",'estacionamientos.nombre')
+      ->whereDate('salida', $hoy)
+      ->select('estacionamientos.nombre','entradas.tipo', DB::raw('Count(tipo) as total'))
+      ->orderBy('estacionamientos.nombre')->get();
+      $estacionamientos=estacionamiento::where('activo','Sí')->get();
+      $moto=[];
+      $carro=[];
+      $camioneta=[];
+      $tipo=['Camioneta','Coche','Moto'];
+      foreach($tipo as $key => $value2) {
+          foreach ($estacionamientos as $key => $value) {
+              $ingresos=Entradas::whereDate('salida', $hoy)
+              ->where([
+                'estacionamientos_id' =>$value['id'],
+                'tipo' => $value2])->get()->count();
+              switch($value2){
+                case('Moto'):
+                array_push($moto,$ingresos);
+                break;
+                case('Coche'):
+                array_push($carro,$ingresos);
+                break;
+                case('Camioneta'):
+                array_push($camioneta,$ingresos);
+                break;
+                default:
+                break;
+              }
+          }
+    }
+      return Inertia::render('Vehiculos',['vehiculos'=>$ingresos2,'estacionamientos'=>$estacionamientos,'camioneta'=>$camioneta
+      ,'coche'=>$carro,'moto'=>$moto]);
+    }
+    public function hora(){
+      $carbon = new \Carbon\Carbon();
+      $hoy=$carbon->now()->toDateString();
+      $estacionamientos=estacionamiento::where('activo','Sí')->get();
+      $horas=['00','01','02','03','04','05','06','07','08','09','10',
+      '11','12','13','14','15','16','17','18','19','20','21','22','23','24'];
+      
+      $ocupacion=[];
+      foreach($horas as $key => $hour){
+      foreach ($estacionamientos as $key => $value) {
+        $ingresos2=DB::table('entradas')
+      ->whereDate('salida', $hoy)
+      ->where('estacionamientos_id',$value['id'])
+      ->select(DB::raw('DATE_FORMAT(salida,"%H") as hora,count(*) as total'))
+      ->groupBy('hora')->get();
+      array_push($ocupacion,$ingresos2);
+    }
+  }
+    return Inertia::render('Hora',['estacionamientos'=>$estacionamientos]);
+
     }
 }

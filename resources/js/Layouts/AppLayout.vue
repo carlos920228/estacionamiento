@@ -49,20 +49,23 @@ const logout = () => {
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <JetNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Reportes
-                                </JetNavLink>
                                 <JetNavLink :href="route('estacionamiento.index')" :active="route().current('estacionamiento.index')">
                                     Estacionamientos
                                 </JetNavLink>
                                 <JetNavLink :href="route('entradas.create')" :active="route().current('entradas.create')">
                                     Registrar entradas
                                 </JetNavLink>
-                                <JetNavLink :href="route('entradas.index')" :active="route().current('entradas.create')">
+                                <JetNavLink :href="route('entradas.index')" :active="route().current('entradas.index')">
                                     Cobrar
                                 </JetNavLink>
                                  <JetNavLink :href="route('ingresos')" :active="route().current('ingresos')">
                                     Ingresos
+                                </JetNavLink>
+                                 <JetNavLink :href="route('vehiculos')" :active="route().current('vehiculos')">
+                                    Vehiculos
+                                </JetNavLink>
+                                <JetNavLink :href="route('hora')" :active="route().current('hora')">
+                                    Comparativo X hora
                                 </JetNavLink>
                             </div>
                             
